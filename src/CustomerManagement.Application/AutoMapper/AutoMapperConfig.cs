@@ -11,6 +11,7 @@ namespace CustomerManagement.Application.AutoMapper
         {
             CreateMap<AddCustomerRequest, Customer>();
             CreateMap<Customer, CustomerResponse>();
+            CreateMap<UpdateCustomerRequest, Customer>();
         }
     }
 }

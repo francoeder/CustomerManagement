@@ -73,5 +73,40 @@ namespace CustomerManagement.Api.Controllers
                 Data = response
             });
         }
+
+        [HttpPut]
+        [Route(ApiRoutes.Customer.RouteById)]
+        [SwaggerResponse((int)HttpStatusCode.OK, "", typeof(Response<CustomerResponse>))]
+        [SwaggerOperation(Summary = SwaggerDescriptions.Customer.Update)]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateCustomerRequest request)
+        {
+            var customer = await _customerService.GetById(id);
+
+            _mapper.Map(request, customer);
+            await _customerService.Update(customer);
+
+            var response = _mapper.Map<CustomerResponse>(customer);
+            return Ok(new Response<CustomerResponse>
+            {
+                Success = true,
+                Data = response
+            });
+        }
+
+        [HttpDelete]
+        [Route(ApiRoutes.Customer.RouteById)]
+        [SwaggerResponse((int)HttpStatusCode.OK, "", typeof(Response<string>))]
+        [SwaggerOperation(Summary = SwaggerDescriptions.Customer.Delete)]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _customerService.Delete(id);
+            await _customerService.SaveChangesAsync();
+
+            return Ok(new Response<string>
+            {
+                Success = true
+            });
+        }
+
     }
 }
