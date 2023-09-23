@@ -46,6 +46,11 @@ namespace CustomerManagement.Infra.Data.Repositories
             await Task.Run(() => DbSet.Remove(entity));
         }
 
+        public async Task SaveChangesAsync()
+        {
+            await DbContext.SaveChangesAsync();
+        }
+
         public void Dispose()
         {
             DbContext.Dispose();

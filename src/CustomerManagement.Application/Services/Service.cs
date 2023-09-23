@@ -1,5 +1,6 @@
 ﻿using CustomerManagement.Domain.Interfaces.Repositories;
 using CustomerManagement.Domain.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace CustomerManagement.Application.Services
 {
@@ -36,6 +37,11 @@ namespace CustomerManagement.Application.Services
         {
             var entity = await _repository.GetById(id);
             await _repository.Delete(entity);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _repository.SaveChangesAsync();
         }
 
         public void Dispose()
