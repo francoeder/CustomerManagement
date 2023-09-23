@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CustomerManagement.Application\CustomerManagement.Application.csproj" />
     <ProjectReference Include="..\CustomerManagement.Domain\CustomerManagement.Domain.csproj" />
     <ProjectReference Include="..\CustomerManagement.Infra.Data\CustomerManagement.Infra.Data.csproj" />
   </ItemGroup>

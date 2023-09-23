@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerManagement.Infra.Io
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerManagement.Infra.Data", "src\CustomerManagement.Infra.Data\CustomerManagement.Infra.Data.csproj", "{C123D620-0534-4A09-9DA0-AC60AF1C0720}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerManagement.Application", "src\CustomerManagement.Application\CustomerManagement.Application.csproj", "{D92F4570-E445-4B26-A11F-FE7F31D7EAD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{C123D620-0534-4A09-9DA0-AC60AF1C0720}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C123D620-0534-4A09-9DA0-AC60AF1C0720}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C123D620-0534-4A09-9DA0-AC60AF1C0720}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D92F4570-E445-4B26-A11F-FE7F31D7EAD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D92F4570-E445-4B26-A11F-FE7F31D7EAD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D92F4570-E445-4B26-A11F-FE7F31D7EAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D92F4570-E445-4B26-A11F-FE7F31D7EAD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{FDC5AF6C-0607-4EB5-A718-101F32A30F64} = {40B2C588-70D8-4C22-BC2A-98930144ADDC}
 		{7CE86747-661E-493A-A873-057F107CBA68} = {29DEC9CC-3F37-41D7-88FE-4E41BFB0F625}
 		{C123D620-0534-4A09-9DA0-AC60AF1C0720} = {29DEC9CC-3F37-41D7-88FE-4E41BFB0F625}
+		{D92F4570-E445-4B26-A11F-FE7F31D7EAD0} = {2ACF4058-D201-4CCD-B086-90F9FF2CA84A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7837B43-D018-41F9-AE3D-740E0CDC9425}
