@@ -58,5 +58,20 @@ namespace CustomerManagement.Api.Controllers
                 Data = response
             });
         }
+
+        [HttpGet]
+        [Route(ApiRoutes.Customer.DefaultRoute)]
+        [SwaggerResponse((int)HttpStatusCode.OK, "", typeof(Response<List<CustomerResponse>>))]
+        [SwaggerOperation(Summary = SwaggerDescriptions.Customer.GetById)]
+        public async Task<IActionResult> GetAllFiltered([FromQuery] GetAllFilteredRequest request)
+        {
+            var customers = await _customerService.GetAllFiltered(request.CompanyName);
+            var response = _mapper.Map<List<CustomerResponse>>(customers);
+            return Ok(new Response<List<CustomerResponse>>
+            {
+                Success = true,
+                Data = response
+            });
+        }
     }
 }
