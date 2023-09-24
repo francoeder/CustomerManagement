@@ -33,9 +33,8 @@ namespace CustomerManagement.Application.Services
             return await _repository.Update(entity);
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(TEntity entity)
         {
-            var entity = await _repository.GetById(id);
             await _repository.Delete(entity);
         }
 

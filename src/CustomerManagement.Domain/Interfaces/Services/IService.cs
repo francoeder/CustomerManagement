@@ -6,7 +6,7 @@
         Task<TEntity> GetById(Guid id);
         Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity> Update(TEntity entity);
-        Task Delete(Guid id);
+        Task Delete(TEntity entity);
         Task SaveChangesAsync();
     }
 }
