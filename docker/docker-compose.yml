@@ -9,6 +9,12 @@ services:
     environment:
       - ACCEPT_EULA=y
       - SA_PASSWORD=S3cretPass
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "S3cretPass" -Q "SELECT 1" -b -o /dev/null
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
