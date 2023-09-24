@@ -10,6 +10,8 @@ namespace CustomerManagement.Infra.Data.Mappings
         {
             base.Configure(builder);
             builder.ToTable(nameof(Customer), "system");
+
+            builder.Property(c => c.ResponsiblePersonName).HasMaxLength(100);
         }
     }
 }

@@ -48,6 +48,8 @@ namespace CustomerManagement.Api.Tests.Controllers
             var controller = _fixture.GetInstance();
             var id = _fixture.Fixture.Create<Guid>();
             var request = _fixture.Fixture.Build<UpdateCustomerRequest>()
+                .With(request => request.Age, 18)
+                .With(request => request.ResponsiblePersonName, "Bruce Wayne")
                 .With(request => request.Email, "bruce@waynecorp.com")
                 .With(request => request.PhoneNumber, "1-800-426-8477")
                 .Create();
