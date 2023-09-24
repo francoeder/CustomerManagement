@@ -90,3 +90,13 @@ dotnet test
 # Migrations
 
 This project is already configured to run migrations at the time the project is launched.
+<br><br>
+
+
+# Next Steps
+
+I will probably continue with this project, there are a lot of things that can be improved.
+If you want to follow what lies ahead, visit the project page at the link below.
+
+
+### 👷🏻‍♂️🛠️ [CustomerManagement - Web API boilerplate Project](https://github.com/users/francoeder/projects/1/views/1)
