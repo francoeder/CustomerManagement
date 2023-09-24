@@ -1,3 +1,5 @@
+[![.NET](https://github.com/francoeder/CustomerManagement/actions/workflows/ci-dotnet.yml/badge.svg?branch=main)](https://github.com/francoeder/CustomerManagement/actions/workflows/ci-dotnet.yml)
+
 # What is that?
 
 A .NET 7.0 Web API boilerplate project that implements the Clean Architecture pattern.
