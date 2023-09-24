@@ -12,7 +12,8 @@ using System.Net;
 
 namespace CustomerManagement.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(ApiRoutes.Global.BaseRoute)]
+    [ApiVersion("1.0")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
@@ -81,7 +82,7 @@ namespace CustomerManagement.Api.Controllers
         [HttpGet]
         [Route(ApiRoutes.Customer.DefaultRoute)]
         [SwaggerResponse((int)HttpStatusCode.OK, "", typeof(Response<List<CustomerResponse>>))]
-        [SwaggerOperation(Summary = SwaggerDescriptions.Customer.GetById)]
+        [SwaggerOperation(Summary = SwaggerDescriptions.Customer.GetAll)]
         public async Task<IActionResult> GetAllFiltered([FromQuery] GetAllFilteredRequest request)
         {
             var customers = await _customerService.GetAllFiltered(request.CompanyName);
