@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using CustomerManagement.Api.Constants;
-using CustomerManagement.Application.Constants;
+using CustomerManagement.Application.Interfaces;
+using CustomerManagement.Application.Notifications;
 using CustomerManagement.Application.Requests.Customer;
 using CustomerManagement.Application.Responses.Base;
 using CustomerManagement.Application.Responses.Customer;
-using CustomerManagement.Domain;
-using CustomerManagement.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
@@ -18,13 +17,16 @@ namespace CustomerManagement.Api.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly INotifier _notifier;
         private readonly IMapper _mapper;
 
         public CustomerController(
             ICustomerService customerService,
+            INotifier notifier,
             IMapper mapper)
         {
             _customerService = customerService;
+            _notifier = notifier;
             _mapper = mapper;
         }
 
@@ -33,20 +35,17 @@ namespace CustomerManagement.Api.Controllers
         [SwaggerResponse((int)HttpStatusCode.Created, "", typeof(Response<CustomerResponse>))]
         [SwaggerOperation(Summary = SwaggerDescriptions.Customer.Add)]
         public async Task<IActionResult> Add(AddCustomerRequest request)
-        {
-            if (!request.IsValid())
+        {            
+            var response = await _customerService.Add(request);
+
+            if (_notifier.HasNotification())
             {
                 return BadRequest(new Response<object>
                 {
                     Success = false,
-                    Data = request.GetErrors().Select(s => new { s.PropertyName, s.ErrorMessage }),
+                    Data = _notifier.GetNotifications(),
                 });
             }
-
-            var customer = _mapper.Map<Customer>(request);
-            await _customerService.Add(customer);
-            await _customerService.SaveChangesAsync();
-            var response = _mapper.Map<CustomerResponse>(customer);
 
             return Created(ApiRoutes.Customer.RouteById, new Response<CustomerResponse>
             {
@@ -61,17 +60,17 @@ namespace CustomerManagement.Api.Controllers
         [SwaggerOperation(Summary = SwaggerDescriptions.Customer.GetById)]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var customer = await _customerService.GetById(id);
-            if (customer == null)
+            var response = await _customerService.GetCustomerById(id);
+
+            if (_notifier.HasNotification())
             {
-                return NotFound(new Response<string>
+                return BadRequest(new Response<object>
                 {
-                    Success = true,
-                    Data = ValidationMessages.Customer.CustomerNotFound
+                    Success = false,
+                    Data = _notifier.GetNotifications(),
                 });
             }
 
-            var response = _mapper.Map<CustomerResponse>(customer);
             return Ok(new Response<CustomerResponse>
             {
                 Success = true,
@@ -85,8 +84,7 @@ namespace CustomerManagement.Api.Controllers
         [SwaggerOperation(Summary = SwaggerDescriptions.Customer.GetAll)]
         public async Task<IActionResult> GetAllFiltered([FromQuery] GetAllFilteredRequest request)
         {
-            var customers = await _customerService.GetAllFiltered(request.CompanyName);
-            var response = _mapper.Map<List<CustomerResponse>>(customers);
+            var response = await _customerService.GetAllFiltered(request.CompanyName);
             return Ok(new Response<List<CustomerResponse>>
             {
                 Success = true,
@@ -100,30 +98,17 @@ namespace CustomerManagement.Api.Controllers
         [SwaggerOperation(Summary = SwaggerDescriptions.Customer.Update)]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateCustomerRequest request)
         {
-            if (!request.IsValid())
+            var response = await _customerService.Update(id, request);
+
+            if (_notifier.HasNotification())
             {
                 return BadRequest(new Response<object>
                 {
                     Success = false,
-                    Data = request.GetErrors().Select(s => new { s.PropertyName, s.ErrorMessage }),
+                    Data = _notifier.GetNotifications(),
                 });
             }
 
-            var customer = await _customerService.GetById(id);
-            if (customer == null)
-            {
-                return NotFound(new Response<string>
-                {
-                    Success = true,
-                    Data = ValidationMessages.Customer.CustomerNotFound
-                });
-            }
-
-            await _customerService.SaveChangesAsync();
-            _mapper.Map(request, customer);
-            await _customerService.Update(customer);
-
-            var response = _mapper.Map<CustomerResponse>(customer);
             return Ok(new Response<CustomerResponse>
             {
                 Success = true,
@@ -137,18 +122,16 @@ namespace CustomerManagement.Api.Controllers
         [SwaggerOperation(Summary = SwaggerDescriptions.Customer.Delete)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var customer = await _customerService.GetById(id);
-            if (customer == null)
+            await _customerService.Delete(id);
+
+            if (_notifier.HasNotification())
             {
-                return NotFound(new Response<string>
+                return BadRequest(new Response<object>
                 {
-                    Success = true,
-                    Data = ValidationMessages.Customer.CustomerNotFound
+                    Success = false,
+                    Data = _notifier.GetNotifications(),
                 });
             }
-
-            await _customerService.Delete(customer);
-            await _customerService.SaveChangesAsync();
 
             return Ok(new Response<string>
             {

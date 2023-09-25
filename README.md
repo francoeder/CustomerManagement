@@ -70,7 +70,7 @@ This option only requires Docker to be installed on your machine.
 Once Docker is installed, simply run the command below to upload the SQL Server database:
 
 ```
-docker-compose -f docker/docker-compose up -d
+docker-compose -f docker/docker-compose.yml up -d
 ```
 
 After that, just run the project with the environment variable `ASPNETCORE_ENVIRONMENT` = `Internal`.

@@ -1,6 +1,7 @@
-﻿using CustomerManagement.Application.Services;
+﻿using CustomerManagement.Application.Interfaces;
+using CustomerManagement.Application.Notifications;
+using CustomerManagement.Application.Services;
 using CustomerManagement.Domain.Interfaces.Repositories;
-using CustomerManagement.Domain.Interfaces.Services;
 using CustomerManagement.Infra.Data.Context;
 using CustomerManagement.Infra.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,8 @@ namespace CustomerManagement.Infra.Ioc
     {
         public static IServiceCollection InjectDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<INotifier, Notifier>();
+
             return services
                 .InjectServices()
                 .InjectRepositories()

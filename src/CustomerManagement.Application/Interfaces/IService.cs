@@ -1,4 +1,4 @@
-﻿namespace CustomerManagement.Domain.Interfaces.Services
+﻿namespace CustomerManagement.Application.Interfaces
 {
     public interface IService<TEntity> : IDisposable where TEntity : class
     {

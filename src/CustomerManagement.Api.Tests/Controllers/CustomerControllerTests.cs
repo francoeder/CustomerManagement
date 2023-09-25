@@ -1,11 +1,7 @@
 ﻿using AutoFixture;
 using CustomerManagement.Api.Tests.Controllers.Fixtures;
-using CustomerManagement.Application.Constants;
 using CustomerManagement.Application.Requests.Customer;
-using CustomerManagement.Application.Responses.Base;
-using CustomerManagement.Domain;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 
 namespace CustomerManagement.Api.Tests.Controllers
 {
@@ -19,78 +15,61 @@ namespace CustomerManagement.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task GetById_WhenCustomerNotExists_ShouldReturnNotFoundWithCorrectMessages()
+        public async Task GetById_WhenThereAreNotifications_ShouldReturnBadRequest()
         {
             // Arrange
             var controller = _fixture.GetInstance();
             var id = _fixture.Fixture.Create<Guid>();
 
-            Customer? customerNotFound = null;
-            _fixture.CustomerServiceMock
-                .Setup(service => service.GetById(It.IsAny<Guid>()))
-                .ReturnsAsync(customerNotFound);
+            _fixture.NotifierMock
+                .Setup(notifier => notifier.HasNotification())
+                .Returns(true);
 
             // Act
             var result = await controller.GetById(id) as ObjectResult;
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(404, result.StatusCode);
-
-            Assert.NotNull(result.Value);
-            Assert.Equal(ValidationMessages.Customer.CustomerNotFound, ((Response<string>)result.Value).Data);
+            Assert.Equal(400, result.StatusCode);
         }
 
         [Fact]
-        public async Task Update_WhenCustomerNotExists_ShouldReturnNotFoundWithCorrectMessages()
+        public async Task Update_WhenThereAreNotifications_ShouldReturnBadRequest()
         {
             // Arrange
             var controller = _fixture.GetInstance();
             var id = _fixture.Fixture.Create<Guid>();
-            var request = _fixture.Fixture.Build<UpdateCustomerRequest>()
-                .With(request => request.Age, 18)
-                .With(request => request.ResponsiblePersonName, "Bruce Wayne")
-                .With(request => request.Email, "bruce@waynecorp.com")
-                .With(request => request.PhoneNumber, "1-800-426-8477")
-                .Create();
+            var request = _fixture.Fixture.Create<UpdateCustomerRequest>();
 
-            Customer? customerNotFound = null;
-            _fixture.CustomerServiceMock
-                .Setup(service => service.GetById(It.IsAny<Guid>()))
-                .ReturnsAsync(customerNotFound);
+            _fixture.NotifierMock
+                .Setup(notifier => notifier.HasNotification())
+                .Returns(true);
 
             // Act
             var result = await controller.Update(id, request) as ObjectResult;
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(404, result.StatusCode);
-
-            Assert.NotNull(result.Value);
-            Assert.Equal(ValidationMessages.Customer.CustomerNotFound, ((Response<string>)result.Value).Data);
+            Assert.Equal(400, result.StatusCode);
         }
 
         [Fact]
-        public async Task Delete_WhenCustomerNotExists_ShouldReturnNotFoundWithCorrectMessages()
+        public async Task Delete_WhenThereAreNotifications_ShouldReturnBadRequest()
         {
             // Arrange
             var controller = _fixture.GetInstance();
             var id = _fixture.Fixture.Create<Guid>();
 
-            Customer? customerNotFound = null;
-            _fixture.CustomerServiceMock
-                .Setup(service => service.GetById(It.IsAny<Guid>()))
-                .ReturnsAsync(customerNotFound);
+            _fixture.NotifierMock
+                .Setup(notifier => notifier.HasNotification())
+                .Returns(true);
 
             // Act
             var result = await controller.Delete(id) as ObjectResult;
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(404, result.StatusCode);
-
-            Assert.NotNull(result.Value);
-            Assert.Equal(ValidationMessages.Customer.CustomerNotFound, ((Response<string>)result.Value).Data);
+            Assert.Equal(400, result.StatusCode);
         }
     }
 }

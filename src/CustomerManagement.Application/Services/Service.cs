@@ -1,6 +1,5 @@
-﻿using CustomerManagement.Domain.Interfaces.Repositories;
-using CustomerManagement.Domain.Interfaces.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using CustomerManagement.Application.Interfaces;
+using CustomerManagement.Domain.Interfaces.Repositories;
 
 namespace CustomerManagement.Application.Services
 {
