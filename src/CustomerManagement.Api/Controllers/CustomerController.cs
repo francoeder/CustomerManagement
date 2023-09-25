@@ -18,16 +18,13 @@ namespace CustomerManagement.Api.Controllers
     {
         private readonly ICustomerService _customerService;
         private readonly INotifier _notifier;
-        private readonly IMapper _mapper;
 
         public CustomerController(
             ICustomerService customerService,
-            INotifier notifier,
-            IMapper mapper)
+            INotifier notifier)
         {
             _customerService = customerService;
             _notifier = notifier;
-            _mapper = mapper;
         }
 
         [HttpPost]
